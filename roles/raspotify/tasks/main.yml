@@ -1,0 +1,9 @@
+---
+- name: Cron script for cleaning up raspotify cache
+  tags: raspotify
+  become: yes
+  template:
+    src: clean-raspotify-cache.j2
+    dest: /etc/cron.daily/clean-raspotify-cache
+    owner: root
+    mode: u=rwx,g=r,o=r

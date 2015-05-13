@@ -1,0 +1,14 @@
+#!/bin/bash
+# Clean oldest files and empty directories when cache size is over size
+
+cache=/var/cache/raspotify/files
+size_gb=$((1024*1025*{{ raspotify_cache_size_gb }}))
+
+[ -d $cache ] || exit
+
+while [ $(du -s $cache | cut -f1) -gt $size_gb ] ; do
+  find $cache -type f -printf '%T+ %p\n' | sort | head -n 1 | cut -d' ' -f2 | xargs rm -f
+  find $cache -empty -type d -delete
+  sleep 1
+done
+
